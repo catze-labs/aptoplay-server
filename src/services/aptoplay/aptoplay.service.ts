@@ -8,7 +8,7 @@ export class AptoplayService extends AptoPlay implements OnModuleInit {
   }
 
   async onModuleInit() {
-    Logger.log(`AptoService is initialized`);
+    Logger.log(`AptoplayService is initialized`);
     Logger.log(`AptoPlay TITLE_ID = ${process.env.TITLE_ID}`);
     Logger.log(`AptoPlay X-SECRET-KEY = ${process.env.X_SECRET_KEY}`);
   }
