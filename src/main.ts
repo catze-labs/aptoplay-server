@@ -6,6 +6,14 @@ import { AppModule } from "./app.module";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  ["https://aptoplay-web.vercel.app", "http://localhost:3000"];
+  app.enableCors({
+    origin:
+      process.env.ENVIRONMENT === "local"
+        ? "*"
+        : "https://aptoplay-web.vercel.app"
+  });
+
   const config = new DocumentBuilder()
     .setTitle("AptoPlay BE API")
     .setDescription("Aptos Seoul Hack 2023 Buidle - AptoPlay Server")
