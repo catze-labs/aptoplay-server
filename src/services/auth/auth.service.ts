@@ -3,7 +3,8 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException
+  NotFoundException,
+  UnauthorizedException
 } from "@nestjs/common";
 import { AptoPlayError } from "aptoplay-core";
 import { getGoogleProfileByAccessToken } from "src/utils";
@@ -125,5 +126,23 @@ export class AuthService {
     }
 
     return aptoPlayUser;
+  }
+
+  async validateAndGetPlayFabIdBySessionTicket(
+    sessionTicket: string
+  ): Promise<string> {
+    try {
+      return await this.aptoplayService.validateAndGetPlayFabIdBySessionTicket(
+        sessionTicket
+      );
+    } catch (err: any) {
+      console.log(err);
+      if (err instanceof AptoPlayError)
+        if (err.name === "PLAYFAB_SESSION_TICKET_EXPIRED") {
+          throw new UnauthorizedException(err);
+        } else {
+          throw new InternalServerErrorException(err.rawError);
+        }
+    }
   }
 }
