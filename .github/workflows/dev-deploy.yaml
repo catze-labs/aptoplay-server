@@ -7,7 +7,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      ECR_REPOSITORY_NAME: aptoplay-server
+      ECR_REPOSITORY_NAME: aptoplay
       DOCKER_BUILDKIT: 1
     steps:
       - name: Check out code
