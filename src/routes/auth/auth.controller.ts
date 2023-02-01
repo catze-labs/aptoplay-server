@@ -1,15 +1,16 @@
 import { Body, Controller, HttpCode, Post } from "@nestjs/common";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
-import { AptoplayService } from "src/services/aptoplay/aptoplay.service";
 import { AuthService } from "src/services/auth/auth.service";
 import {
+  loginWithEmailAddressSchema,
   registerWithEmailAddressSchema,
   registerWithGoogleAccountSchema
 } from "../schema";
 import {
   loginWithEmailAddressDto,
   registerWithEmailAddressDto,
-  registerWithGoogleAccountDto
+  registerWithGoogleAccountDto,
+  loginWithGoogleAccountDto
 } from "./dtos";
 
 @Controller("auth")
@@ -43,5 +44,15 @@ export class AuthController {
   ) {
     const { email, password } = loginWithEmailAddressDto;
     return await this.authService.loginWithEmail(email, password);
+  }
+
+  @Post("/loginWithGoogle")
+  @ApiBody(loginWithEmailAddressSchema)
+  @HttpCode(200)
+  async loginWithGoogle(
+    @Body() loginWithGoogleAccountDto: loginWithGoogleAccountDto
+  ) {
+    const { accessToken } = loginWithGoogleAccountDto;
+    return await this.authService.loginWithGoogleAccount(accessToken);
   }
 }

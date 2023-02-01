@@ -1,4 +1,6 @@
-import { Controller } from '@nestjs/common';
+import { Controller } from "@nestjs/common";
 
-@Controller('nonce')
-export class NonceController {}
+@Controller("nonce")
+export class NonceController {
+  constructor() {}
+}

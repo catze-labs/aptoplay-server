@@ -15,6 +15,14 @@ export class registerWithEmailAddressDto {
   @IsString()
   password: string;
 }
+export class registerWithGoogleAccountDto {
+  @ApiProperty({
+    description: "Google OAuth2.0 access token"
+  })
+  @IsString()
+  @IsNotEmpty()
+  accessToken: string;
+}
 
 export class loginWithEmailAddressDto {
   @ApiProperty({
@@ -31,7 +39,7 @@ export class loginWithEmailAddressDto {
   password: string;
 }
 
-export class registerWithGoogleAccountDto {
+export class loginWithGoogleAccountDto {
   @ApiProperty({
     description: "Google OAuth2.0 access token"
   })

@@ -2,9 +2,11 @@ import {
   HttpException,
   Injectable,
   InternalServerErrorException,
-  Logger
+  Logger,
+  NotFoundException
 } from "@nestjs/common";
 import { AptoPlayError } from "aptoplay-core";
+import { getGoogleProfileByAccessToken } from "src/utils";
 import { AptoplayService } from "../aptoplay/aptoplay.service";
 import { PrismaService } from "../prisma/prisma.service";
 
@@ -52,6 +54,24 @@ export class AuthService {
     return aptoPlayUser;
   }
 
+  async registerWithGoogleAccount(accessToken: string) {
+    let aptoPlayUser;
+    try {
+      aptoPlayUser = await this.aptoplayService.registerWithGoogleAccount(
+        accessToken
+      );
+    } catch (err: unknown) {
+      if (err instanceof AptoPlayError) {
+        Logger.error(err);
+        throw new HttpException(err.message, err.code);
+      } else {
+        throw new InternalServerErrorException(err);
+      }
+    }
+
+    return aptoPlayUser;
+  }
+
   async loginWithEmail(email: string, password: string) {
     const user: number = await this.prismaService.user.count({
       where: {
@@ -60,7 +80,7 @@ export class AuthService {
     });
 
     if (user === 0) {
-      throw new HttpException("User not found", 404);
+      throw new NotFoundException("User not found");
     }
 
     let aptoPlayUser;
@@ -78,10 +98,21 @@ export class AuthService {
     return aptoPlayUser;
   }
 
-  async registerWithGoogleAccount(accessToken: string) {
+  async loginWithGoogleAccount(accessToken: string) {
+    const email = await getGoogleProfileByAccessToken(accessToken);
+    const user: number = await this.prismaService.user.count({
+      where: {
+        email
+      }
+    });
+
+    if (user === 0) {
+      throw new NotFoundException("User not found");
+    }
+
     let aptoPlayUser;
     try {
-      aptoPlayUser = await this.aptoplayService.registerWithGoogleAccount(
+      aptoPlayUser = await this.aptoplayService.loginWithGoogleAccount(
         accessToken
       );
     } catch (err: unknown) {

@@ -19,6 +19,18 @@ export const registerWithEmailAddressSchema = {
   }
 };
 
+export const registerWithGoogleAccountSchema = {
+  schema: {
+    type: "object",
+    required: ["accessToken"],
+    properties: {
+      accessToken: {
+        type: "string"
+      }
+    }
+  }
+};
+
 export const loginWithEmailAddressSchema = {
   schema: {
     type: "object",
@@ -36,14 +48,13 @@ export const loginWithEmailAddressSchema = {
   }
 };
 
-export const registerWithGoogleAccountSchema = {
+export const loginWithGoogleAccountSchema = {
   schema: {
     type: "object",
     required: ["accessToken"],
     properties: {
       accessToken: {
-        type: "string",
-        format: "email"
+        type: "string"
       }
     }
   }
