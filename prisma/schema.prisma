@@ -10,9 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
   id        Int      @id @default(autoincrement())
-  playFabId String   @unique
+  playFabId String?  @unique
   email     String   @unique
   created   DateTime @default(now()) @db.DateTime(6)
   updated   DateTime @default(now()) @updatedAt @db.DateTime(6)
