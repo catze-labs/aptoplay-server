@@ -11,20 +11,9 @@ datasource db {
 }
 
 model user {
-  id          Int           @id @default(autoincrement())
-  playFabId   String?       @unique
-  email       String        @unique
-  created     DateTime      @default(now()) @db.DateTime(6)
-  updated     DateTime      @default(now()) @updatedAt @db.DateTime(6)
-  transaction transaction[]
-}
-
-model transaction {
-  id      Int      @id @default(autoincrement())
-  userId  Int
-  user    user     @relation(fields: [userId], references: [id])
-  txHash  String   @unique
-  status  Int
-  created DateTime @default(now()) @db.DateTime(6)
-  updated DateTime @default(now()) @updatedAt @db.DateTime(6)
+  id        Int      @id @default(autoincrement())
+  playFabId String?  @unique
+  email     String   @unique
+  created   DateTime @default(now()) @db.DateTime(6)
+  updated   DateTime @default(now()) @updatedAt @db.DateTime(6)
 }
