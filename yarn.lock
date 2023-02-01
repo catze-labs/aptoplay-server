@@ -647,10 +647,10 @@ append-field@^1.0.0:
   resolved "https://registry.yarnpkg.com/append-field/-/append-field-1.0.0.tgz#1e3440e915f0b1203d23748e78edd7b9b5b43e56"
   integrity sha512-klpgFSWLW1ZEs8svjfb7g4qWY0YS5imI82dTg+QahUvJ8YqAY0P10Uk8tTyh9ZGuYEZEMaeJYCF5BFuX552hsw==
 
-aptoplay-core@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/aptoplay-core/-/aptoplay-core-0.0.9.tgz#03eea938b150a263581580e65a99fd2134e15971"
-  integrity sha512-c4cK4xoJm/nRfGN+QPzpjRs1EL5pRQzLCdQE3K/TXbHXd0Tjjl4HVSturO28ABy/zvwbJya/E0IQgEx0Fp6lqQ==
+aptoplay-core@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/aptoplay-core/-/aptoplay-core-0.0.10.tgz#7e0af8e4440cc6bab410fb0e0f2a9c6890342751"
+  integrity sha512-je6/zrpIIFDsmMjk7rQLs0eHfmtBh65f77lV5CJqZ9oYqMgdc4fnP35sJZ2COcck86XM5gMvfuaa4GgFvmVfzQ==
   dependencies:
     axios "^0.27.2"
 

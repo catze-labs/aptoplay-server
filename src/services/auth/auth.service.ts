@@ -34,7 +34,6 @@ export class AuthService {
         });
 
         Logger.error(err);
-
         throw new HttpException(err.message, err.code);
       } else {
         throw new InternalServerErrorException(err);
@@ -70,7 +69,6 @@ export class AuthService {
     } catch (err: unknown) {
       if (err instanceof AptoPlayError) {
         Logger.error(err);
-
         throw new HttpException(err.message, err.code);
       } else {
         throw new InternalServerErrorException(err);
@@ -89,7 +87,6 @@ export class AuthService {
     } catch (err: unknown) {
       if (err instanceof AptoPlayError) {
         Logger.error(err);
-
         throw new HttpException(err.message, err.code);
       } else {
         throw new InternalServerErrorException(err);

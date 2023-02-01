@@ -24,7 +24,7 @@
     "@nestjs/schedule": "^2.1.0",
     "@nestjs/swagger": "^6.1.4",
     "@prisma/client": "^4.9.0",
-    "aptoplay-core": "^0.0.9",
+    "aptoplay-core": "^0.0.10",
     "axios": "^0.27.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
