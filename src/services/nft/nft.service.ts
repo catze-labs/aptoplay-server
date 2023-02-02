@@ -65,7 +65,7 @@ export class NftService {
     }
   }
 
-  async testMint(playFabId: string): Promise<token> {
+  async testMint(playFabId: string) {
     const tokenCount: number = await this.prismaService.token.count();
 
     const newMintedtoken: token = await this.prismaService.token.create({
@@ -80,13 +80,6 @@ export class NftService {
       }
     });
 
-    return newMintedtoken;
-  }
-
-  async testGetMetaData(sessionTicket: string) {
-    return await this.aptoplayService.getGameStatisticsByStatisticNamesForNFTMetadata(
-      sessionTicket,
-      UserStatisticNames
-    );
+    return { txHash: newMintedtoken.txHash, additionalData: newMintedtoken };
   }
 }

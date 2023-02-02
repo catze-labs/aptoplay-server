@@ -17,14 +17,14 @@ export class mintToSystemWalletDto {
   walletAddress: string;
 
   @ApiProperty({
-    description: "User Aptos chain Wallet Address"
+    description: "User Aptos chain Wallet Address public key"
   })
   @IsString()
   @IsNotEmpty()
   publicKey: string;
 
   @ApiProperty({
-    description: "User Aptos chain Wallet Address"
+    description: "User Aptos chain Wallet Address private key"
   })
   @IsString()
   @IsNotEmpty()
@@ -41,15 +41,6 @@ export class testMintDto {
 }
 
 export class getMetadataDto {
-  @ApiProperty({
-    description: "PlayFab session ticket of user (token like.)"
-  })
-  @IsString()
-  @IsNotEmpty()
-  sessionTicket: string;
-}
-
-export class testGetMetadataDto {
   @ApiProperty({
     description: "PlayFab session ticket of user (token like.)"
   })
