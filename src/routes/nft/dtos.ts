@@ -16,3 +16,21 @@ export class mintDto {
   @IsNotEmpty()
   walletAddress: string;
 }
+
+export class testMintDto {
+  @ApiProperty({
+    description: "PlayFab session ticket of user (token like.)"
+  })
+  @IsString()
+  @IsNotEmpty()
+  sessionTicket: string;
+}
+
+export class testGetMetadataDto {
+  @ApiProperty({
+    description: "PlayFab session ticket of user (token like.)"
+  })
+  @IsString()
+  @IsNotEmpty()
+  sessionTicket: string;
+}

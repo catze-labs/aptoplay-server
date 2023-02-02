@@ -1,11 +1,17 @@
 import { HttpException, Injectable } from "@nestjs/common";
+import { token } from "@prisma/client";
 import { AptoPlayError } from "aptoplay-core";
 import { UserStatisticNames } from "src/constants";
+import { randomString } from "src/utils";
 import { AptoplayService } from "../aptoplay/aptoplay.service";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class NftService {
-  constructor(private readonly aptoplayService: AptoplayService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly aptoplayService: AptoplayService
+  ) {}
   async mint(playFabId: string, sessionTicket: string, walletAddress: string) {
     // get PlayFab play data
     let gameData;
@@ -51,5 +57,30 @@ export class NftService {
         throw new HttpException(err.message, err.code);
       }
     }
+  }
+
+  async testMint(playFabId: string): Promise<token> {
+    const tokenCount: number = await this.prismaService.token.count();
+
+    const newMintedtoken: token = await this.prismaService.token.create({
+      data: {
+        tokenId: (tokenCount + 1).toString(),
+        txHash: `0x${randomString(64)}`,
+        user: {
+          connect: {
+            playFabId
+          }
+        }
+      }
+    });
+
+    return newMintedtoken;
+  }
+
+  async testGetMetaData(sessionTicket: string) {
+    return await this.aptoplayService.getGameStatisticsByStatisticNamesForNFTMetadata(
+      sessionTicket,
+      UserStatisticNames
+    );
   }
 }

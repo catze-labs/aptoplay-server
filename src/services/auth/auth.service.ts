@@ -158,7 +158,7 @@ export class AuthService {
         sessionTicket
       );
     } catch (err: any) {
-      console.log(err);
+      Logger.error(err);
       if (err instanceof AptoPlayError)
         if (err.name === "PLAYFAB_SESSION_TICKET_EXPIRED") {
           throw new UnauthorizedException(err);
