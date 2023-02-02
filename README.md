@@ -1,73 +1,71 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+![image](https://user-images.githubusercontent.com/65929678/216216243-440bcb5c-5052-4946-9cad-47a98842e363.png)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# APTOPLAY Tutorial Server
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+> Effortless Integration, Seamless Experience in Aptos gaming solutions for game builders
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
+The problem we aim to solve is the effortless integration of blockchain technology into gaming. Game developers are often unable
+to take full advantage of the benefits that blockchain technology offers due to the complex and unfriendly solutions that currently exist.
+This has resulted in a barrier for many game developers and has limited the potential for Web3 games. Additionally, the tools
+that currently exist for game developers are often lacking and do not provide a user-friendly experience.
 
 ```bash
-$ npm install
+$ npm install aptoplay-core
 ```
 
-## Running the app
+This web server is a demo that provides tutorials and information about the `aptoplay-core` library used by Aptoplay. Through this demo, users can learn about the following:
 
-```bash
-# development
-$ npm run start
+- Installation and configuration of `aptoplay`
+- Interaction with `PlayFab`
+- Use cases through interaction with the Aptos chain.
 
-# watch mode
-$ npm run start:dev
+The goal of this server is to provide a better developer experience (DX) for the integration of Aptos-Gaming, and more features will be added through ongoing updates.
 
-# production mode
-$ npm run start:prod
+If you encounter any bugs or areas that need improvement about server, please [create an issue](https://github.com/catze-labs/aptoplay-server/issues/new). We will do our best to assist with your issue reporting.
+
+## Libraries used in this demo
+
+- Nest.js : `9.x`
+- Prisma : `4.9.x`
+- Axios
+- aptoplay-core : `latest`
+
+## File Structures `/src` in this demo
+
 ```
+src
+├── app.controller.spec.ts
+├── app.controller.ts
+├── app.module.ts
+├── app.service.ts
+├── constants.ts
+├── env.d.ts
+├── main.ts
+├── routes
+│   ├── auth
+│   │   ├── auth.controller.ts
+│   │   └── dtos.ts
+│   ├── nft
+│   │   ├── dtos.ts
+│   │   └── nft.controller.ts
+│   ├── routes.module.ts
+│   ├── schema.ts
+│   └── user
+│       └── user.controller.ts
+├── services
+│   ├── aptoplay
+│   │   └── aptoplay.service.ts
+│   ├── aptos
+│   │   └── aptos.service.ts
+│   ├── auth
+│   │   └── auth.service.ts
+│   ├── nft
+│   │   └── nft.service.ts
+│   ├── prisma
+│   │   └── prisma.service.ts
+│   └── services.module.ts
+├── types.ts
+└── utils.ts
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
