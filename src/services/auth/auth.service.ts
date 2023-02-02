@@ -67,6 +67,17 @@ export class AuthService {
   }
 
   async registerWithGoogleAccount(accessToken: string) {
+    const email = await getGoogleProfileByAccessToken(accessToken);
+    const user: number = await this.prismaService.user.count({
+      where: {
+        email
+      }
+    });
+
+    if (user === 0) {
+      throw new NotFoundException("User not found");
+    }
+
     let aptoPlayUser;
     try {
       aptoPlayUser = await this.aptoplayService.registerWithGoogleAccount(
