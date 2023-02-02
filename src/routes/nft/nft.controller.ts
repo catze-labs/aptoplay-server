@@ -21,4 +21,13 @@ export class NftController {
 
     return await this.nftService.mint(playFabId, sessionTicket, walletAddress);
   }
+
+  @Post("/burn")
+  async burn() {
+    // TODO
+    console.log("burn");
+    return {
+      message: "burn"
+    };
+  }
 }

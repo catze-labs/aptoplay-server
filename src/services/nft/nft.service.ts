@@ -2,7 +2,6 @@ import { HttpException, Injectable } from "@nestjs/common";
 import { AptoPlayError } from "aptoplay-core";
 import { UserStatisticNames } from "src/constants";
 import { AptoplayService } from "../aptoplay/aptoplay.service";
-import { AuthService } from "../auth/auth.service";
 
 @Injectable()
 export class NftService {
