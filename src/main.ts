@@ -2,25 +2,23 @@ import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
+import { PrismaService } from "./services/prisma/prisma.service";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  ["https://aptoplay-web.vercel.app", "http://localhost:3000"];
-  app.enableCors({
-    origin:
-      process.env.ENVIRONMENT === "local"
-        ? "*"
-        : "https://aptoplay-web.vercel.app"
-  });
+  const prismaService = app.get(PrismaService);
+  await prismaService.enableShutdownHooks(app);
 
-  const config = new DocumentBuilder()
-    .setTitle("AptoPlay BE API")
-    .setDescription("Aptos Seoul Hack 2023 Buidle - AptoPlay Server")
-    .setVersion("0.1")
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("docs", app, document);
+  if (process.env.ENVIRONMENT !== "prod") {
+    const config = new DocumentBuilder()
+      .setTitle("AptoPlay BE API")
+      .setDescription("Aptos Seoul Hack 2023 Buidle - AptoPlay Server")
+      .setVersion("0.1")
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup("docs", app, document);
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -31,6 +29,10 @@ async function bootstrap() {
     })
   );
 
-  await app.listen(3000);
+  app.enableCors({
+    origin: "*"
+  });
+
+  await app.listen(process.env.PORT);
 }
 bootstrap();
