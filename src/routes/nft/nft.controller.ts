@@ -19,6 +19,6 @@ export class NftController {
         sessionTicket
       );
 
-    return await this.nftService.mint(playFabId, walletAddress);
+    return await this.nftService.mint(playFabId, sessionTicket, walletAddress);
   }
 }
