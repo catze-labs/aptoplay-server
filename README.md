@@ -10,7 +10,11 @@ This has resulted in a barrier for many game developers and has limited the pote
 that currently exist for game developers are often lacking and do not provide a user-friendly experience.
 
 ```bash
-$ npm install aptoplay-core
+npm install aptoplay-core
+
+# OR
+
+yarn add aptoplay-core
 ```
 
 This web server is a demo that provides tutorials and information about the `aptoplay-core` library used by Aptoplay. Through this demo, users can learn about the following:
