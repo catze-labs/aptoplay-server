@@ -75,7 +75,7 @@ export class AuthService {
     });
 
     if (count > 0) {
-      throw new NotFoundException("User already exists");
+      throw new BadRequestException("User already exists");
     }
 
     let aptoPlayUser;
