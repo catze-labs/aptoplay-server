@@ -2,7 +2,12 @@ import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AuthService } from "src/services/auth/auth.service";
 import { NftService } from "src/services/nft/nft.service";
-import { mintDto, testMintDto, testGetMetadataDto } from "./dtos";
+import {
+  mintToSystemWalletDto,
+  testMintDto,
+  getMetadataDto,
+  testGetMetadataDto
+} from "./dtos";
 
 @Controller("nft")
 @ApiTags("NFT")
@@ -12,16 +17,22 @@ export class NftController {
     private readonly authService: AuthService
   ) {}
 
-  @Post("/mint")
-  async mint(@Body() mintDto: mintDto) {
-    const { sessionTicket, walletAddress } = mintDto;
+  @Post("/mint-to-wallet")
+  async mint(@Body() mintToSystemWalletDto: mintToSystemWalletDto) {
+    const { sessionTicket, walletAddress, publicKey, privateKey } =
+      mintToSystemWalletDto;
 
     const playFabId =
       await this.authService.validateAndGetPlayFabIdBySessionTicket(
         sessionTicket
       );
 
-    return await this.nftService.mint(playFabId, sessionTicket, walletAddress);
+    return await this.nftService.mint(
+      playFabId,
+      walletAddress,
+      publicKey,
+      privateKey
+    );
   }
 
   @Post("/test-mint")
@@ -33,11 +44,12 @@ export class NftController {
         sessionTicket
       );
 
-    return await this.nftService.testMint(playFabId);
+    // return await this.nftService.testMint(playFabId);
   }
 
   @Get("/metadata")
-  async getMetaData(@Param("sessionTicket") sessionTicket: string) {
+  async getMetaData(@Query() getMetadataDto: getMetadataDto) {
+    const sessionTicket = getMetadataDto.sessionTicket;
     await this.authService.validateAndGetPlayFabIdBySessionTicket(
       sessionTicket
     );

@@ -12,37 +12,43 @@ export class NftService {
     private readonly prismaService: PrismaService,
     private readonly aptoplayService: AptoplayService
   ) {}
-  async mint(playFabId: string, sessionTicket: string, walletAddress: string) {
-    // get PlayFab play data
-    let gameData;
-    try {
-      gameData =
-        await this.aptoplayService.getGameStatisticsByStatisticNamesForNFTMetadata(
-          sessionTicket,
-          UserStatisticNames
-        );
+  async mint(
+    playFabId: string,
+    walletAddress: string,
+    publicKey: string,
+    privateKey: string
+  ) {
+    this.aptoplayService.setAptosSystemAccountObject({
+      address: walletAddress,
+      publicKeyHex: publicKey,
+      privateKeyHex: privateKey
+    });
 
-      console.log(gameData);
+    try {
+      const txHash: string = await this.aptoplayService.mintToSystemWallet(
+        "mint"
+      );
+
+      const tokenCount: number = await this.prismaService.token.count();
+      const token = await this.prismaService.token.create({
+        data: {
+          tokenId: (tokenCount + 1).toString(),
+          txHash,
+          user: {
+            connect: {
+              playFabId
+            }
+          }
+        }
+      });
+
+      return { token };
     } catch (err) {
       if (err instanceof AptoPlayError) {
         console.log(err.name);
         throw new HttpException(err.message, err.code);
       }
     }
-
-    // store NFT image in IPFS
-    // Make metadata of NFT with image uri and play data
-
-    // TODO
-    /*
-      만약 컨트랙 배포나, 민팅로직 구현이 늦어질 경우에
-      더미데이터를 만들어서 내려준다.
-      {
-        tokenId : '',
-        succeedTxHash : ''
-      }
-    */
-    return gameData;
   }
 
   async getMetaData(sessionTicket: string) {

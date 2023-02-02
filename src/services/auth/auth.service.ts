@@ -159,12 +159,23 @@ export class AuthService {
       );
     } catch (err: any) {
       Logger.error(err);
-      if (err instanceof AptoPlayError)
-        if (err.name === "PLAYFAB_SESSION_TICKET_EXPIRED") {
-          throw new UnauthorizedException(err);
-        } else {
-          throw new InternalServerErrorException(err.rawError);
+      if (err instanceof AptoPlayError) {
+        switch (err.name) {
+          case "PLAYFAB_SESSION_TICKET_EXPIRED": {
+            throw new UnauthorizedException(err.rawError);
+          }
+
+          case "PLAYFAB_SESSION_TICKET_VALIDATION_ERROR": {
+            throw new BadRequestException(err.rawError);
+          }
+
+          default: {
+            throw new InternalServerErrorException(err.rawError);
+          }
         }
+      }
+
+      throw new InternalServerErrorException(err);
     }
   }
 }

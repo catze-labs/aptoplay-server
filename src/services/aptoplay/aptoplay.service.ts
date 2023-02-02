@@ -1,10 +1,19 @@
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { AptoPlay } from "aptoplay-core";
+import { MintingContractInformation } from "src/constants";
 
 @Injectable()
 export class AptoplayService extends AptoPlay implements OnModuleInit {
   constructor() {
-    super(process.env.TITLE_ID, process.env.X_SECRET_KEY);
+    super(
+      process.env.TITLE_ID,
+      process.env.X_SECRET_KEY,
+      "https://fullnode.devnet.aptoslabs.com",
+      "https://faucet.devnet.aptoslabs.com",
+      {
+        mint: MintingContractInformation
+      }
+    );
   }
 
   async onModuleInit() {

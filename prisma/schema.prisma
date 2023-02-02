@@ -27,3 +27,12 @@ model token {
   txHash  String   @unique
   created DateTime @default(now()) @db.DateTime(6)
 }
+
+model systemWallet {
+  id         Int      @id @default(autoincrement())
+  title      String   @unique
+  address    String   @unique
+  publicKey  String   @unique
+  privateKey String   @unique
+  created    DateTime @default(now()) @db.DateTime(6)
+}
