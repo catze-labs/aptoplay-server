@@ -8,8 +8,9 @@ export class NftService {
   constructor(private readonly aptoplayService: AptoplayService) {}
   async mint(playFabId: string, sessionTicket: string, walletAddress: string) {
     // get PlayFab play data
+    let gameData;
     try {
-      const gameData =
+      gameData =
         await this.aptoplayService.getGameStatisticsByStatisticNamesForNFTMetadata(
           sessionTicket,
           UserStatisticNames
@@ -23,6 +24,8 @@ export class NftService {
 
     // store NFT image in IPFS
     // Make metadata of NFT with image uri and play data
+
+    return gameData;
   }
 
   async burn(playFabId: string, tokenId: string) {}
