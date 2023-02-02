@@ -15,6 +15,8 @@ export class NftService {
           sessionTicket,
           UserStatisticNames
         );
+
+      console.log(gameData);
     } catch (err) {
       if (err instanceof AptoPlayError) {
         console.log(err.name);
@@ -25,8 +27,29 @@ export class NftService {
     // store NFT image in IPFS
     // Make metadata of NFT with image uri and play data
 
+    // TODO
+    /*
+      만약 컨트랙 배포나, 민팅로직 구현이 늦어질 경우에
+      더미데이터를 만들어서 내려준다.
+      {
+        tokenId : '',
+        succeedTxHash : ''
+      }
+    */
     return gameData;
   }
 
-  async burn(playFabId: string, tokenId: string) {}
+  async getMetaData(sessionTicket: string) {
+    try {
+      return await this.aptoplayService.getGameStatisticsByStatisticNamesForNFTMetadata(
+        sessionTicket,
+        UserStatisticNames
+      );
+    } catch (err) {
+      if (err instanceof AptoPlayError) {
+        console.log(err.name);
+        throw new HttpException(err.message, err.code);
+      }
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { AuthService } from "src/services/auth/auth.service";
 import { NftService } from "src/services/nft/nft.service";
 import { mintDto } from "./dtos";
@@ -20,5 +20,15 @@ export class NftController {
       );
 
     return await this.nftService.mint(playFabId, sessionTicket, walletAddress);
+  }
+
+  @Get("/metadata")
+  async getMetaData(@Param("sessionTicket") sessionTicket: string) {
+    const playFabId =
+      await this.authService.validateAndGetPlayFabIdBySessionTicket(
+        sessionTicket
+      );
+
+    return await this.nftService.getMetaData(sessionTicket);
   }
 }
