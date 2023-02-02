@@ -1,9 +1,11 @@
 import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { AuthService } from "src/services/auth/auth.service";
 import { NftService } from "src/services/nft/nft.service";
 import { mintDto, testMintDto, testGetMetadataDto } from "./dtos";
 
 @Controller("nft")
+@ApiTags("NFT")
 export class NftController {
   constructor(
     private readonly nftService: NftService,
