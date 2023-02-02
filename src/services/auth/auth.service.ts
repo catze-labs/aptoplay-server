@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   Injectable,
   InternalServerErrorException,
@@ -19,6 +20,16 @@ export class AuthService {
   ) {}
 
   async registerWithEmail(email: string, password: string) {
+    const count = await this.prismaService.user.count({
+      where: {
+        email
+      }
+    });
+
+    if (count > 0) {
+      throw new BadRequestException("User already exists");
+    }
+
     const user = await this.prismaService.user.create({
       data: {
         email
