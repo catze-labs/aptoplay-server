@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Catze Labs AptoPlay Server",
   "author": "Catze Labs",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -24,7 +24,7 @@
     "@nestjs/schedule": "^2.1.0",
     "@nestjs/swagger": "^6.1.4",
     "@prisma/client": "^4.9.0",
-    "aptoplay-core": "^0.0.24",
+    "aptoplay-core": "^0.0.27",
     "aptos": "^1.6.0",
     "axios": "^0.27.2",
     "class-transformer": "^0.5.1",
