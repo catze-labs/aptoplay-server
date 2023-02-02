@@ -20,7 +20,7 @@ export class AuthService {
   ) {}
 
   async registerWithEmail(email: string, password: string) {
-    const count = await this.prismaService.user.count({
+    const count: number = await this.prismaService.user.count({
       where: {
         email
       }
@@ -68,14 +68,14 @@ export class AuthService {
 
   async registerWithGoogleAccount(accessToken: string) {
     const email = await getGoogleProfileByAccessToken(accessToken);
-    const user: number = await this.prismaService.user.count({
+    const count: number = await this.prismaService.user.count({
       where: {
         email
       }
     });
 
-    if (user === 0) {
-      throw new NotFoundException("User not found");
+    if (count > 0) {
+      throw new NotFoundException("User already exists");
     }
 
     let aptoPlayUser;
@@ -96,13 +96,13 @@ export class AuthService {
   }
 
   async loginWithEmail(email: string, password: string) {
-    const user: number = await this.prismaService.user.count({
+    const count: number = await this.prismaService.user.count({
       where: {
         email
       }
     });
 
-    if (user === 0) {
+    if (count === 0) {
       throw new NotFoundException("User not found");
     }
 
@@ -123,13 +123,13 @@ export class AuthService {
 
   async loginWithGoogleAccount(accessToken: string) {
     const email = await getGoogleProfileByAccessToken(accessToken);
-    const user: number = await this.prismaService.user.count({
+    const count: number = await this.prismaService.user.count({
       where: {
         email
       }
     });
 
-    if (user === 0) {
+    if (count === 0) {
       throw new NotFoundException("User not found");
     }
 
