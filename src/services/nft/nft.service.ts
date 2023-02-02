@@ -42,7 +42,7 @@ export class NftService {
         }
       });
 
-      return { token };
+      return { txHash, additionalData: token };
     } catch (err) {
       if (err instanceof AptoPlayError) {
         console.log(err.name);
