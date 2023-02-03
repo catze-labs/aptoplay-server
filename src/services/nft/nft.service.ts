@@ -53,10 +53,22 @@ export class NftService {
 
   async getMetaData(sessionTicket: string) {
     try {
-      return await this.aptoplayService.getGameStatisticsByStatisticNamesForNFTMetadata(
-        sessionTicket,
-        UserStatisticNames
-      );
+      const res =
+        await this.aptoplayService.getGameStatisticsByStatisticNamesForNFTMetadata(
+          sessionTicket,
+          UserStatisticNames
+        );
+
+      UserStatisticNames.map((statisticName) => {
+        if (!res.hasOwnProperty(statisticName)) {
+          res[statisticName] = {
+            version: 0,
+            value: 0
+          };
+        }
+      });
+
+      return res;
     } catch (err) {
       if (err instanceof AptoPlayError) {
         console.log(err.name);
