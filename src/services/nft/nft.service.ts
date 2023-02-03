@@ -14,6 +14,24 @@ export class NftService {
   ) {}
   async mint(playFabId: string) {
     try {
+      if (
+        process.env.SYSTEM_WALLET_ADDRESS === undefined ||
+        process.env.SYSTEM_WALLET_PUBLICKEY === undefined ||
+        process.env.SYSTEM_WALLET_PRIVATE_KEY === undefined
+      ) {
+        const systemAccount = await this.prismaService.systemWallet.findUnique({
+          where: {
+            title: "SYSTEM_WALLET"
+          }
+        });
+
+        this.aptoplayService.setAptosSystemAccountObject({
+          address: systemAccount.address,
+          publicKeyHex: systemAccount.publicKey,
+          privateKeyHex: systemAccount.privateKey
+        });
+      }
+
       const txHash: string = await this.aptoplayService.mintToSystemWallet(
         "mint"
       );
