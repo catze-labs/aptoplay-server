@@ -74,6 +74,10 @@ export class AuthService {
         Logger.error(err);
         throw new HttpException(err.message, err.code);
       } else {
+        if (axios.isAxiosError(err)) {
+          throw new HttpException(err, Number(err.status));
+        }
+
         throw new InternalServerErrorException(err);
       }
     }
@@ -135,6 +139,10 @@ export class AuthService {
         Logger.error(err);
         throw new HttpException(err.message, err.code);
       } else {
+        if (axios.isAxiosError(err)) {
+          throw new HttpException(err, Number(err.status));
+        }
+
         throw new InternalServerErrorException(err);
       }
     }
