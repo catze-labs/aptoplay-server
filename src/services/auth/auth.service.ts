@@ -8,6 +8,7 @@ import {
   UnauthorizedException
 } from "@nestjs/common";
 import { AptoPlayError } from "aptoplay-core";
+import axios from "axios";
 import { getGoogleProfileByAccessToken } from "src/utils";
 import { AptoplayService } from "../aptoplay/aptoplay.service";
 import { PrismaService } from "../prisma/prisma.service";
@@ -39,6 +40,29 @@ export class AuthService {
     let aptoPlayUser;
     try {
       aptoPlayUser = await this.aptoplayService.registerUser(email, password);
+
+      await axios.post(
+        `${this.aptoplayService.getBaseUrl()}/Client/UpdatePlayerStatistics`,
+        {
+          Statistics: [
+            {
+              StatisticName: "petName",
+              Value: 1,
+              Version: 0
+            },
+            {
+              StatisticName: "petLevel",
+              Value: 1,
+              Version: 0
+            }
+          ]
+        },
+        {
+          headers: {
+            "X-Authorization": aptoPlayUser["sessionTicket"]
+          }
+        }
+      );
     } catch (err: unknown) {
       if (err instanceof AptoPlayError) {
         await this.prismaService.user.delete({
@@ -82,6 +106,29 @@ export class AuthService {
     try {
       aptoPlayUser = await this.aptoplayService.registerWithGoogleAccount(
         accessToken
+      );
+
+      await axios.post(
+        `${this.aptoplayService.getBaseUrl()}/Client/UpdatePlayerStatistics`,
+        {
+          Statistics: [
+            {
+              StatisticName: "petName",
+              Value: 1,
+              Version: 0
+            },
+            {
+              StatisticName: "petLevel",
+              Value: 1,
+              Version: 0
+            }
+          ]
+        },
+        {
+          headers: {
+            "X-Authorization": aptoPlayUser["sessionTicket"]
+          }
+        }
       );
     } catch (err: unknown) {
       if (err instanceof AptoPlayError) {

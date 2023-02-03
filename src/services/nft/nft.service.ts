@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { token } from "@prisma/client";
 import { AptoPlayError } from "aptoplay-core";
-import { UserStatisticNames } from "src/constants";
+import { PetNameCode, UserStatisticNames } from "src/constants";
 import { randomString } from "src/utils";
 import { AptoplayService } from "../aptoplay/aptoplay.service";
 import { PrismaService } from "../prisma/prisma.service";
@@ -91,12 +91,26 @@ export class NftService {
           UserStatisticNames
         );
 
+      if (res.hasOwnProperty("petName")) {
+        res["petName"] = {
+          value: PetNameCode[res["petName"].value],
+          version: res["petName"].version
+        };
+      }
+
       UserStatisticNames.map((statisticName) => {
         if (!res.hasOwnProperty(statisticName)) {
-          res[statisticName] = {
-            version: 0,
-            value: 0
-          };
+          if (statisticName === "petName") {
+            res[statisticName] = {
+              version: 0,
+              value: PetNameCode[1]
+            };
+          } else {
+            res[statisticName] = {
+              version: 0,
+              value: 0
+            };
+          }
         }
       });
 
@@ -110,8 +124,6 @@ export class NftService {
   }
 
   async testMint(playFabId: string) {
-    const tokenCount: number = await this.prismaService.token.count();
-
     const newMintedtoken: token = await this.prismaService.token.create({
       data: {
         tokenRequestId: `${new Date().getTime().toString()}-${playFabId}`,
