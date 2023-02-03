@@ -1,4 +1,9 @@
-import { HttpException, Injectable } from "@nestjs/common";
+import {
+  HttpException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException
+} from "@nestjs/common";
 import { token } from "@prisma/client";
 import { AptoPlayError } from "aptoplay-core";
 import { UserStatisticNames } from "src/constants";
@@ -13,30 +18,56 @@ export class NftService {
     private readonly aptoplayService: AptoplayService
   ) {}
   async mint(playFabId: string) {
+    if (
+      process.env.SYSTEM_WALLET_ADDRESS === undefined ||
+      process.env.SYSTEM_WALLET_PUBLICKEY === undefined ||
+      process.env.SYSTEM_WALLET_PRIVATE_KEY === undefined
+    ) {
+      const systemAccount = await this.prismaService.systemWallet.findUnique({
+        where: {
+          title: "SYSTEM_WALLET"
+        }
+      });
+
+      this.aptoplayService.setAptosSystemAccountObject({
+        address: systemAccount.address,
+        publicKeyHex: systemAccount.publicKey,
+        privateKeyHex: systemAccount.privateKey
+      });
+    }
+
+    let txHash: string = "";
     try {
-      if (
-        process.env.SYSTEM_WALLET_ADDRESS === undefined ||
-        process.env.SYSTEM_WALLET_PUBLICKEY === undefined ||
-        process.env.SYSTEM_WALLET_PRIVATE_KEY === undefined
-      ) {
-        const systemAccount = await this.prismaService.systemWallet.findUnique({
-          where: {
-            title: "SYSTEM_WALLET"
+      txHash = await this.aptoplayService.mintToSystemWallet("mint");
+    } catch (err) {
+      if (err instanceof AptoPlayError) {
+        switch (err.name) {
+          case "SMART_CONTRACT_ALIAS_ADDRESS_NOT_FOUND":
+          case "SYSTEM_ACCOUNT_OBJECT_NOT_FOUND":
+          case "SYSTEM_ACCOUNT_PROPERTIES_NOT_FOUND": {
+            throw new NotFoundException({
+              name: err.name,
+              message: err.message
+            });
           }
-        });
 
-        this.aptoplayService.setAptosSystemAccountObject({
-          address: systemAccount.address,
-          publicKeyHex: systemAccount.publicKey,
-          privateKeyHex: systemAccount.privateKey
-        });
+          case "APTOS_MINT_TO_SYSTEM_WALLET_ERROR": {
+            throw new InternalServerErrorException({
+              name: err.name,
+              message: err.message
+            });
+          }
+
+          default: {
+            throw new InternalServerErrorException();
+          }
+        }
       }
+    }
 
-      const txHash: string = await this.aptoplayService.mintToSystemWallet(
-        "mint"
-      );
-
-      const token = await this.prismaService.token.create({
+    let token: token;
+    if (txHash.length > 0) {
+      token = await this.prismaService.token.create({
         data: {
           tokenRequestId: `${new Date().getTime().toString()}-${playFabId}`,
           txHash,
@@ -47,14 +78,9 @@ export class NftService {
           }
         }
       });
-
-      return { txHash, additionalData: token };
-    } catch (err) {
-      if (err instanceof AptoPlayError) {
-        console.log(err.name);
-        throw new HttpException(err.message, err.code);
-      }
     }
+
+    return { txHash, additionalData: token };
   }
 
   async getMetaData(sessionTicket: string) {
