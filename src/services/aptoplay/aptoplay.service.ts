@@ -12,6 +12,11 @@ export class AptoplayService extends AptoPlay implements OnModuleInit {
       "https://faucet.devnet.aptoslabs.com",
       {
         mint: MintingContractInformation
+      },
+      {
+        address: process.env.SYSTEM_WALLET_ADDRESS,
+        publicKeyHex: process.env.SYSTEM_WALLET_PUBLICKEY,
+        privateKeyHex: process.env.SYSTEM_WALLET_PRIVATE_KEY
       }
     );
   }

@@ -8,27 +8,6 @@ export class mintToSystemWalletDto {
   @IsString()
   @IsNotEmpty()
   sessionTicket: string;
-
-  @ApiProperty({
-    description: "User Aptos chain Wallet Address"
-  })
-  @IsString()
-  @IsNotEmpty()
-  walletAddress: string;
-
-  @ApiProperty({
-    description: "User Aptos chain Wallet Address public key"
-  })
-  @IsString()
-  @IsNotEmpty()
-  publicKey: string;
-
-  @ApiProperty({
-    description: "User Aptos chain Wallet Address private key"
-  })
-  @IsString()
-  @IsNotEmpty()
-  privateKey: string;
 }
 
 export class testMintDto {

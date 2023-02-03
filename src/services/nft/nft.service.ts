@@ -12,27 +12,15 @@ export class NftService {
     private readonly prismaService: PrismaService,
     private readonly aptoplayService: AptoplayService
   ) {}
-  async mint(
-    playFabId: string,
-    walletAddress: string,
-    publicKey: string,
-    privateKey: string
-  ) {
-    this.aptoplayService.setAptosSystemAccountObject({
-      address: walletAddress,
-      publicKeyHex: publicKey,
-      privateKeyHex: privateKey
-    });
-
+  async mint(playFabId: string) {
     try {
       const txHash: string = await this.aptoplayService.mintToSystemWallet(
         "mint"
       );
 
-      const tokenCount: number = await this.prismaService.token.count();
       const token = await this.prismaService.token.create({
         data: {
-          tokenId: (tokenCount + 1).toString(),
+          tokenRequestId: `${new Date().getTime().toString()}-${playFabId}`,
           txHash,
           user: {
             connect: {
@@ -82,7 +70,7 @@ export class NftService {
 
     const newMintedtoken: token = await this.prismaService.token.create({
       data: {
-        tokenId: (tokenCount + 1).toString(),
+        tokenRequestId: `${new Date().getTime().toString()}-${playFabId}`,
         txHash: `0x${randomString(64)}`,
         user: {
           connect: {

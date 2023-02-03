@@ -20,12 +20,12 @@ model user {
 }
 
 model token {
-  id      Int      @id @default(autoincrement())
-  userId  Int
-  user    user     @relation(fields: [userId], references: [id])
-  tokenId String   @unique
-  txHash  String   @unique
-  created DateTime @default(now()) @db.DateTime(6)
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  user           user     @relation(fields: [userId], references: [id])
+  tokenRequestId String   @unique
+  txHash         String   @unique
+  created        DateTime @default(now()) @db.DateTime(6)
 }
 
 model systemWallet {

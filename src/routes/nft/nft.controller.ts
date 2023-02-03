@@ -12,22 +12,16 @@ export class NftController {
     private readonly authService: AuthService
   ) {}
 
-  @Post("/mint-to-wallet")
+  @Post("/mint-to-system")
   async mint(@Body() mintToSystemWalletDto: mintToSystemWalletDto) {
-    const { sessionTicket, walletAddress, publicKey, privateKey } =
-      mintToSystemWalletDto;
+    const { sessionTicket } = mintToSystemWalletDto;
 
     const playFabId =
       await this.authService.validateAndGetPlayFabIdBySessionTicket(
         sessionTicket
       );
 
-    return await this.nftService.mint(
-      playFabId,
-      walletAddress,
-      publicKey,
-      privateKey
-    );
+    return await this.nftService.mint(playFabId);
   }
 
   @Post("/test-mint")
